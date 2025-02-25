@@ -1,10 +1,6 @@
 part of 'anagram_bloc.dart';
 
-enum AnagramGameStatus {
-  initial,
-  loaded,
-  gameError
-}
+enum AnagramGameStatus { initial, loaded, gameError }
 
 final class AnagramState extends Equatable {
   const AnagramState({

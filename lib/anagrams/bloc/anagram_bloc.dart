@@ -95,8 +95,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
 
   List<Word> get _result {
     // All the anagrams that were not guessed
-    final notGuessedAnagrams =
-        state.anagrams.map(Word.new).toList();
+    final notGuessedAnagrams = state.anagrams.map(Word.new).toList();
     // All the guesses that were made
     final guesses = state.guesses.where((word) => word.isAnagram).toList();
     // return the list of anagrams that were not guessed

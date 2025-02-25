@@ -11,8 +11,7 @@ class AnagramsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-      AnagramBloc()
+      create: (_) => AnagramBloc()
         ..add(
           SetupAnagrams(
             DefaultAssetBundle.of(context),
@@ -227,5 +226,3 @@ class _NextWordButton extends StatelessWidget {
     );
   }
 }
-
-
