@@ -114,7 +114,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
   /// Picks a good starter word for the game.
   String _pickGoodStarterWord() {
     // ignore: omit_local_variable_types
-    String word = 'skate';
+    const word = 'skate';
 
     return word;
   }
