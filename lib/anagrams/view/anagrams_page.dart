@@ -64,7 +64,7 @@ class AnagramsView extends StatelessWidget {
 }
 
 class _SelectedWord extends StatelessWidget {
-  const _SelectedWord({super.key});
+  const _SelectedWord();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _SelectedWord extends StatelessWidget {
 }
 
 class _AnagramsTextField extends StatelessWidget {
-  const _AnagramsTextField({super.key});
+  const _AnagramsTextField();
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class _AnagramsTextField extends StatelessWidget {
 }
 
 class _GuessListView extends StatelessWidget {
-  const _GuessListView({super.key});
+  const _GuessListView();
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +141,7 @@ class _GuessListView extends StatelessWidget {
 }
 
 class _GameResult extends StatelessWidget {
-  const _GameResult(this.currentWord, this.result, {super.key});
+  const _GameResult(this.currentWord, this.result);
 
   final List<Word> result;
   final String currentWord;
@@ -200,7 +200,7 @@ class _GameResult extends StatelessWidget {
 }
 
 class _NextWordButton extends StatelessWidget {
-  const _NextWordButton({super.key});
+  const _NextWordButton();
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +209,7 @@ class _NextWordButton extends StatelessWidget {
       listener: (context, event) {
         if (event is FinishGuess) {
           // show a bottom sheet with the anagrams that were not guessed
-          showModalBottomSheet(
+          showModalBottomSheet<void>(
             context: context,
             useSafeArea: true,
             builder: (context) {
@@ -227,4 +227,5 @@ class _NextWordButton extends StatelessWidget {
     );
   }
 }
+
 

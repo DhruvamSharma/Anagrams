@@ -12,5 +12,4 @@ class Word extends Equatable {
 
   @override
   List<Object?> get props => [value];
-
 }
