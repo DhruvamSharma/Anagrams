@@ -11,9 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  equatable: ^2.0.3
   flutter_localizations:
     sdk: flutter
   intl: ^0.19.0
+  bloc_presentation: ^1.0.1
 
 dev_dependencies:
   bloc_test: ^9.1.7
@@ -25,3 +27,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/

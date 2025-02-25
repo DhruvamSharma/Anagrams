@@ -3,5 +3,21 @@
     "counterAppBarTitle": "Counter",
     "@counterAppBarTitle": {
         "description": "Text shown in the AppBar of the Counter Page"
+    },
+    "anagramAppBarTitle": "Anagrams",
+    "@anagramAppBarTitle": {
+        "description": "Text shown in the AppBar of the Anagram Page"
+    },
+    "startButton": "Start",
+    "@startButton": {
+        "description": "Text shown in the Start Button"
+    },
+    "nextWordButton": "Next Word",
+    "@nextWordButton": {
+        "description": "Text shown in the Next Word Button"
+    },
+    "endButton": "End",
+    "@endButton": {
+        "description": "Text shown in the End Button"
     }
 }

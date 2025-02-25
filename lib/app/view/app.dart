@@ -1,4 +1,4 @@
-import 'package:anagrams/counter/counter.dart';
+import 'package:anagrams/anagrams/view/anagrams_page.dart';
 import 'package:anagrams/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const AnagramsPage(),
     );
   }
 }

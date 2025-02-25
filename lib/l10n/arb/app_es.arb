@@ -3,5 +3,21 @@
     "counterAppBarTitle": "Contador",
     "@counterAppBarTitle": {
         "description": "Texto mostrado en la AppBar de la página del contador"
+    },
+    "anagramAppBarTitle": "Anagrama",
+    "@anagramAppBarTitle": {
+        "description": "Texto que se muestra en la AppBar de la página de Anagrama"
+    },
+    "startButton": "Comenzar",
+    "@startButton": {
+        "description": "Texto que se muestra en el botón de inicio"
+    },
+    "nextWordButton": "Siguiente palabra",
+    "@nextWordButton": {
+        "description": "Texto que se muestra en el botón de siguiente palabra"
+    },
+    "endButton": "Fin",
+    "@endButton": {
+        "description": "Texto que se muestra en el botón de fin"
     }
 }
