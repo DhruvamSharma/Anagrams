@@ -125,7 +125,9 @@ class _GuessListView extends StatelessWidget {
         return Column(
           children: guesses.map((word) {
             return ListTile(
+              minTileHeight: 0,
               contentPadding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
               title: Text(word.value),
               leading: Icon(
                 word.isAnagram ? Icons.check : Icons.close,
