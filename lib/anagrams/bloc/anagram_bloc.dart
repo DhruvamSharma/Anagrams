@@ -148,16 +148,6 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // find all the anagrams of the target word
     final anagrams = <String>[];
 
-    // for (final word in state.words) {
-    //   if (word.length == targetWord.length &&
-    //       _sortLetters(word) == _sortLetters(targetWord) &&
-    //       !word.contains(targetWord)) {
-    //     anagrams.add(word);
-    //   }
-    // }
-    // return anagrams;
-
-
     final sortedWord = _sortLetters(targetWord);
     // check if the sorted word is already in the map
     if (state.anagramMap.containsKey(sortedWord)) {
@@ -189,22 +179,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
 
   /// Picks a good starter word for the game.
   String _pickGoodStarterWord(Emitter<AnagramState> emit) {
-    // ignore: omit_local_variable_types
-    var word = 'skate';
-
-    // Pick a random starting point in the words array
-    // and check each word in the array until you find
-    // one that has at least MIN_NUM_ANAGRAMS = 5 anagrams.
-    // for (var i = 0; i < state.words.length; i++) {
-    //   // random index
-    //   final index = Random().nextInt(state.words.length);
-    //   word = state.words[index];
-    //   final anagrams = _getAnagramsWithOneMoreLetter(word);
-    //   if (anagrams.length >= minNumAnagrams) {
-    //     return word;
-    //   }
-    // }
-
+    const word = 'skate';
 
     // restrict your search to the words of length wordLength,
     // and once you're done, increment wordLength
