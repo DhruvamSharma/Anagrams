@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:anagrams/anagrams/domain/word.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
@@ -32,39 +31,12 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
           await event.defaultAssetBundle.loadString('assets/words.txt');
       // read each line in the file
       final words = const LineSplitter().convert(wordsFile);
-      // Also load all the anagrams for each word
-      final anagramMap = HashMap<String, List<String>>();
-      final wordSet = HashSet<String>();
-      final sizeToWords = HashMap<int, List<String>>();
-      for (final word in words) {
-        // sort the letters of the word
-        final sortedWord = _sortLetters(word);
-        // check if the sorted word is already in the map
-        if (anagramMap.containsKey(sortedWord)) {
-          // add the word to the list of anagrams
-          anagramMap[sortedWord]?.add(word);
-        } else {
-          // create a new list with the word
-          anagramMap[sortedWord] = [word];
-        }
-        wordSet.add(word);
 
-        // add the word to the list of words of the same length
-        final length = word.length;
-        if (sizeToWords.containsKey(length)) {
-          sizeToWords[length]?.add(word);
-        } else {
-          sizeToWords[length] = [word];
-        }
-      }
       // change the state of the game
       emit(
         state.copyWith(
           status: AnagramGameStatus.loaded,
           words: words,
-          anagramMap: anagramMap,
-          wordSet: wordSet,
-          sizeToWords: sizeToWords,
         ),
       );
       // reset the game
@@ -124,7 +96,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
       state.copyWith(
         status: AnagramGameStatus.loaded,
         currentWord: starterWord,
-        anagrams: _getAnagramsWithOneMoreLetter(starterWord),
+        anagrams: _getAnagrams(starterWord),
         guesses: [],
       ),
     );
@@ -147,101 +119,26 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
   List<String> _getAnagrams(String targetWord) {
     // find all the anagrams of the target word
     final anagrams = <String>[];
-
-    // for (final word in state.words) {
-    //   if (word.length == targetWord.length &&
-    //       _sortLetters(word) == _sortLetters(targetWord) &&
-    //       !word.contains(targetWord)) {
-    //     anagrams.add(word);
-    //   }
-    // }
-    // return anagrams;
-
-
-    final sortedWord = _sortLetters(targetWord);
-    // check if the sorted word is already in the map
-    if (state.anagramMap.containsKey(sortedWord)) {
-      // add the word to the list of anagrams
-      anagrams.addAll(state.anagramMap[sortedWord]!);
-    }
-    // remove the target word from the list of anagrams
-    anagrams.remove(targetWord);
     // return the list of anagrams
     return anagrams;
   }
 
+  // ignore: unused_element
   List<String> _getAnagramsWithOneMoreLetter(String targetWord) {
     final anagrams = HashSet<String>();
-    // loop the target word and add a letter to each position
-    // and get the anagrams of the new word from anagramMap
-    for (var i = 0; i < targetWord.length; i++) {
-      for (var j = 0; j < 26; j++) {
-        final newWord = targetWord + String.fromCharCode(j + 97);
-        if (newWord != targetWord) {
-          anagrams.addAll(_getAnagrams(newWord));
-        }
-      }
-    }
+    // return the list of anagrams
     return anagrams.toList();
   }
 
-  String _sortLetters(String word) => (word.split('')..sort()).join();
-
   /// Picks a good starter word for the game.
   String _pickGoodStarterWord(Emitter<AnagramState> emit) {
-    // ignore: omit_local_variable_types
-    var word = 'skate';
-
-    // Pick a random starting point in the words array
-    // and check each word in the array until you find
-    // one that has at least MIN_NUM_ANAGRAMS = 5 anagrams.
-    // for (var i = 0; i < state.words.length; i++) {
-    //   // random index
-    //   final index = Random().nextInt(state.words.length);
-    //   word = state.words[index];
-    //   final anagrams = _getAnagramsWithOneMoreLetter(word);
-    //   if (anagrams.length >= minNumAnagrams) {
-    //     return word;
-    //   }
-    // }
-
-
-    // restrict your search to the words of length wordLength,
-    // and once you're done, increment wordLength
-    // (unless it's already at MAX_WORD_LENGTH)
-    // so that the next invocation will return a larger word.
-    final words = state.sizeToWords[state.wordLength];
-    if (words != null) {
-      // loop through the words of the same length
-      for (var i = 0; i < words.length; i++) {
-        // random index
-        final randomIndex = Random().nextInt(words.length);
-        final randomWord = words[randomIndex];
-        final anagrams = _getAnagramsWithOneMoreLetter(randomWord);
-        if (anagrams.length >= minNumAnagrams) {
-          // remove the word from the list of words
-          int wordLength;
-          if (state.wordLength < maxDefaultWordLength) {
-            wordLength = state.wordLength + 1;
-          } else {
-            wordLength = defaultWordLength;
-          }
-          emit(
-            state.copyWith(
-              wordLength: wordLength,
-            ),
-          );
-          return randomWord;
-        }
-      }
-    }
+    const word = 'skate';
 
     return word;
   }
 
   /// Checks if the word is a good word.
   bool _isGoodWord(String word) {
-    return !word.contains(state.currentWord) &&
-        state.wordSet.contains(word);
+    return true;
   }
 }
