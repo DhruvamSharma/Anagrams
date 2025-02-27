@@ -156,9 +156,10 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // and get the anagrams of the new word from anagramMap
     for (var j = 0; j < 26; j++) {
       final newWord = targetWord + String.fromCharCode(j + 97);
-      if (newWord != targetWord) {
-        anagrams.addAll(_getAnagrams(newWord));
-      }
+      final newAnagrams = _getAnagrams(newWord)
+          .where((word) => !word.contains(targetWord))
+          .toList();
+      anagrams.addAll(newAnagrams);
     }
     return anagrams.toList();
   }
