@@ -166,7 +166,9 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // and get the anagrams of the new word from anagramMap
     for (var j = 0; j < 26; j++) {
       final newWord = targetWord + String.fromCharCode(j + 97);
-      final newAnagrams = _getAnagrams(newWord);
+      final newAnagrams = _getAnagrams(newWord)
+          .where((word) => !word.contains(targetWord))
+          .toList();
       anagrams.addAll(newAnagrams);
     }
     return anagrams.toList();
@@ -189,9 +191,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
       // random index
       final randomIndex = Random().nextInt(words.length);
       final randomWord = words[randomIndex];
-      final anagrams = _getAnagramsWithOneMoreLetter(randomWord)
-          .where((word) => !word.contains(randomWord))
-          .toList();
+      final anagrams = _getAnagramsWithOneMoreLetter(randomWord);
       if (anagrams.length >= minNumAnagrams) {
         // remove the word from the list of words
         int wordLength;
