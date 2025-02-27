@@ -98,7 +98,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
         );
         // if there are no more anagrams, the game is over
         // call _onResetGame to reset the game
-        if (state.anagrams.isEmpty) {
+        if (state.anagrams.where(_isGoodWord).isEmpty) {
           add(ResetGame());
         }
       } else {
@@ -140,7 +140,9 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // All the guesses that were made
     final guesses = state.guesses.where((word) => word.isAnagram).toList();
     // return the list of anagrams that were not guessed
-    return [...guesses, ...notGuessedAnagrams];
+    return [...guesses, ...notGuessedAnagrams]
+        .where((word) => _isGoodWord(word.value))
+        .toList();
   }
 
   /// create a function to find all the anagrams of the target word
@@ -164,13 +166,10 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     final anagrams = HashSet<String>();
     // loop the target word and add a letter to each position
     // and get the anagrams of the new word from anagramMap
-    for (var i = 0; i < targetWord.length; i++) {
-      for (var j = 0; j < 26; j++) {
-        final newWord = targetWord + String.fromCharCode(j + 97);
-        if (newWord != targetWord) {
-          anagrams.addAll(_getAnagrams(newWord));
-        }
-      }
+    for (var j = 0; j < 26; j++) {
+      final newWord = targetWord + String.fromCharCode(j + 97);
+      final newAnagrams = _getAnagrams(newWord);
+      anagrams.addAll(newAnagrams);
     }
     return anagrams.toList();
   }
@@ -186,28 +185,27 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // (unless it's already at MAX_WORD_LENGTH)
     // so that the next invocation will return a larger word.
     final words = state.sizeToWords[state.wordLength];
-    if (words != null) {
-      // loop through the words of the same length
-      for (var i = 0; i < words.length; i++) {
-        // random index
-        final randomIndex = Random().nextInt(words.length);
-        final randomWord = words[randomIndex];
-        final anagrams = _getAnagramsWithOneMoreLetter(randomWord);
-        if (anagrams.length >= minNumAnagrams) {
-          // remove the word from the list of words
-          int wordLength;
-          if (state.wordLength < maxDefaultWordLength) {
-            wordLength = state.wordLength + 1;
-          } else {
-            wordLength = defaultWordLength;
-          }
-          emit(
-            state.copyWith(
-              wordLength: wordLength,
-            ),
-          );
-          return randomWord;
+    assert(words != null, 'Words of length ${state.wordLength} not found');
+    // loop through the words of the same length
+    for (var i = 0; i < words!.length; i++) {
+      // random index
+      final randomIndex = Random().nextInt(words.length);
+      final randomWord = words[randomIndex];
+      final anagrams = _getAnagramsWithOneMoreLetter(randomWord);
+      if (anagrams.length >= minNumAnagrams) {
+        // remove the word from the list of words
+        int wordLength;
+        if (state.wordLength < maxDefaultWordLength) {
+          wordLength = state.wordLength + 1;
+        } else {
+          wordLength = defaultWordLength;
         }
+        emit(
+          state.copyWith(
+            wordLength: wordLength,
+          ),
+        );
+        return randomWord;
       }
     }
 
@@ -216,7 +214,6 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
 
   /// Checks if the word is a good word.
   bool _isGoodWord(String word) {
-    return !word.contains(state.currentWord) &&
-        state.wordSet.contains(word);
+    return !word.contains(state.currentWord) && state.wordSet.contains(word);
   }
 }
