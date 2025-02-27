@@ -122,11 +122,6 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     final starterWord = _pickGoodStarterWord(emit);
     emit(
       state.copyWith(
-        currentWord: starterWord,
-      ),
-    );
-    emit(
-      state.copyWith(
         status: AnagramGameStatus.loaded,
         currentWord: starterWord,
         anagrams: _getAnagramsWithOneMoreLetter(starterWord),
