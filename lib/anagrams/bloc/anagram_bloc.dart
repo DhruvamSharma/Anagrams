@@ -87,7 +87,7 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
         );
         // if there are no more anagrams, the game is over
         // call _onResetGame to reset the game
-        if (state.anagrams.isEmpty) {
+        if (state.anagrams.where(_isGoodWord).isEmpty) {
           add(ResetGame());
         }
       } else {
@@ -129,7 +129,9 @@ class AnagramBloc extends Bloc<AnagramEvent, AnagramState>
     // All the guesses that were made
     final guesses = state.guesses.where((word) => word.isAnagram).toList();
     // return the list of anagrams that were not guessed
-    return [...guesses, ...notGuessedAnagrams];
+    return [...guesses, ...notGuessedAnagrams]
+        .where((word) => _isGoodWord(word.value))
+        .toList();
   }
 
   /// create a function to find all the anagrams of the target word
