@@ -14,7 +14,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_localizations:
     sdk: flutter
-  intl: ^0.19.0
+  intl: ^0.20.2
   bloc_presentation: ^1.0.1
 
 dev_dependencies:
